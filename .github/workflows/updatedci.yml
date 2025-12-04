@@ -1,0 +1,38 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  analyze:
+    name: Analyze with SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0 
+
+      # Add steps to set up your specific project environment (e.g., Java, Node.js, .NET)
+      # Example for a Node.js project:
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '20'
+      # - name: Install dependencies
+      #   run: npm install
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v2.4.0 # Use the official action
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          # Optional: Define project properties here if not using sonar-project.properties
+          projectKey: githubsonar
+          organization: githubsonar
+          # hostUrl is not needed for SonarCloud as it defaults to https://sonarcloud.io
