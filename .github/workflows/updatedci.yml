@@ -12,8 +12,10 @@ jobs:
     name: Analyze with SonarCloud
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: SonarQube Scan
+  uses: SonarSource/sonarqube-scan-action@v6
+  env:
+    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           # Shallow clones should be disabled for a better relevancy of analysis
           fetch-depth: 0 
